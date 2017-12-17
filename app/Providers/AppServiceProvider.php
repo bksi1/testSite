@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\View\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Schema::defaultStringLength(191);
+        $menuItems = \DB::table("pages")->where("active", 1)->orderBy("sortby")->get();
+        \View::share("menuItems", $menuItems);
+        //\View::layout("admin.blade");
     }
 
     /**
